@@ -1,0 +1,39 @@
+{% extends "tariff/list.html.twig" %}
+
+{% block sidebar %}
+    <h2 class="h4 mb-3">
+        {{ "unit.heading"|trans }} <small class="text-muted h6">({{ tariff.client.name }})</small>
+    </h2>
+
+    <div>
+        <a href="{{ path('unit_add', {id: tariff.id}) }}" class="btn btn-primary btn-sm">
+            {{ "unit.add"|trans }}
+        </a>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            {% block form %}{% endblock %}
+
+            {% for unit in units %}
+                <div class="d-flex flex-column {% if not loop.first %}mt-2 pt-2 border-top{% endif %}">
+                    <h3 class="h6 small mb-0">
+                        {{ unit.createdAt|date("j. n. Y") }}
+
+                        <small class="text-muted">
+                            {{ unit.user.username }}
+                        </small>
+                    </h3>
+
+                    <p class="mb-0 small lh-sm mt-1">
+                        {{ unit.text }} <br>
+
+                        <span class="mt-1 badge bg-dark">
+                            {{ unit.amount }} minut
+                        </span>
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

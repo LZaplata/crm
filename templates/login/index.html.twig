@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block body %}
+    <div class="login h-100 d-flex justify-content-center align-items-center overflow-hidden">
+        <div>
+            {% if error %}
+                <div class="row">
+                    <div class="col alert alert-danger py-2 px-3">
+                        {{ error.messageKey|trans(error.messageData, "security") }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <form action="{{ path('login') }}" method="post" class="row">
+                <div class="col-12 input-group p-0">
+                    <span class="input-group-text">
+                        <i class="bi bi-person-fill"></i>
+                    </span>
+
+                    <input type="text" id="username" name="_username" value="{{ last_sername }}" class="form-control" />
+                </div>
+
+                <div class="col-12 input-group mt-3 p-0">
+                    <span class="input-group-text">
+                        <i class="bi bi-key-fill"></i>
+                    </span>
+
+                    <input type="password" id="password" name="_password" class="form-control" />
+                </div>
+
+                <div class="col-12 mt-3 p-0">
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-dark">Přihlásit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

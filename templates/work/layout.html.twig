@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ "work.list"|trans }}
+{% endblock %}
+
+{% block body %}
+    {% include "_header.html.twig" %}
+
+    <div class="container-fluid g-3" id="work">
+        <h1 class="h3 mb-3">
+            {% block heading %}{% endblock %}
+        </h1>
+
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}

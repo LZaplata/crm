@@ -1,0 +1,21 @@
+{% extends "client/layout.html.twig" %}
+
+{% block title %}
+    {{ "client.add"|trans }}
+{% endblock %}
+
+{% block heading %}
+    {{ "client.add"|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body pb-0">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

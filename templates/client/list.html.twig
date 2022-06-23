@@ -1,0 +1,75 @@
+{% extends "client/layout.html.twig" %}
+
+{% block title %}
+    {{ "client.list"|trans }}
+{% endblock %}
+
+{% block heading %}
+    {{ "client.list"|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex">
+        <a href="{{ path('client_add') }}" class="btn btn-primary">
+            {{ "client.add"|trans }}
+        </a>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Název
+                                </th>
+
+                                <th>
+                                    E-mail
+                                </th>
+
+                                <th>
+                                    IČ
+                                </th>
+
+                                <th>
+
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for client in clients %}
+                                <tr>
+                                    <td>
+                                        {{ client.name }}
+                                    </td>
+
+                                    <td>
+                                        {{ client.email }}
+                                    </td>
+
+                                    <td>
+                                        {{ client.businessId }}
+                                    </td>
+
+                                    <td class="text-end">
+                                        <a href="{{ path('client_edit', {id: client.id}) }}" class="d-inline-flex">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+{#        <div class="col-4">#}
+{#            {% block sidebar %}{% endblock %}#}
+{#        </div>#}
+    </div>
+{% endblock %}

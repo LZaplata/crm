@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html class="h-100">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %} | CRM</title>
+
+        {% block stylesheets %}
+            <link href="{{ asset("build/app.css") }}" rel="stylesheet">
+            <link href="{{ asset("build/bootstrap-icons.css") }}" rel="stylesheet">
+        {% endblock %}
+    </head>
+
+    <body class="h-100">
+        {% block body %}{% endblock %}
+
+        {% block javascripts %}
+            <script src="{{ asset("build/popper.js") }}"></script>
+            <script src="{{ asset("build/bootstrap.js") }}"></script>
+            <script src="{{ asset("build/app.js") }}"></script>
+            {#{{ encore_entry_script_tags('app') }}#}
+        {% endblock %}
+    </body>
+</html>

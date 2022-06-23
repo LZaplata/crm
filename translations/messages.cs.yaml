@@ -1,0 +1,66 @@
+header:
+    works: Přehled prací
+    tariffs: Paušály
+    clients: Klienti
+
+work:
+    list: Přehled prací
+    add: Přidat práci
+    form:
+        client: Klient
+        subject: Předmět
+        price: Cena bez DPH
+        state: Stav
+        submit: Uložit
+    edit: Upravit práci
+
+client:
+    list: Klienti
+    add: Přidat klienta
+    form:
+        name: Název
+        email: E-mail
+        business_id: IČ
+        submit: Uložit
+    edit: Upravit klienta
+
+state:
+    negotiating: V jednání
+    working: Pracujeme
+    waiting: Čekáme
+    invoicing: K fakturaci
+    invoiced: Vyfakturováno
+    paid: Zaplaceno
+    canceled: Zrušeno
+
+log:
+    heading: Log
+    add: Přidat záznam
+    form:
+        created_at: Datum
+        text: Text
+        state:
+            label: Stav
+            placeholder: --Ponechat stejný--
+        price: Cena bez DPH (+ k ceně práce)
+        submit: Uložit
+
+tariff:
+    list: Paušály
+    add: Přidat paušál
+    form:
+        client: Klient
+        name: Název
+        amount: Množství (minuty)
+        billing_at: Fakturační den
+        submit: Uložit
+    edit: Upravit paušál
+
+unit:
+    heading: Log
+    add: Přidat záznam
+    form:
+        created_at: Datum
+        text: Text
+        amount: Množství (minuty)
+        submit: Uložit

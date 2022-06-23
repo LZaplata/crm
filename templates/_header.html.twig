@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand navbar-dark mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('homepage') }}">CRM</a>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mb-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('work_list') }}">
+                        {{ "header.works"|trans }}
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('tariff_list') }}">
+                        {{ "header.tariffs"|trans }}
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('client_list') }}">
+                        {{ "header.clients"|trans }}
+                    </a>
+                </li>
+
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">#}
+{#                        {{ "header.units"|trans }}#}
+{#                    </a>#}
+{#                </li>#}
+
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">#}
+{#                        {{ "header.rates"|trans }}#}
+{#                    </a>#}
+{#                </li>#}
+            </ul>
+        </div>
+    </div>
+</nav>

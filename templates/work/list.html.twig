@@ -1,0 +1,161 @@
+{% extends "work/layout.html.twig" %}
+
+{% block heading %}
+    {{ "work.list"|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-8 d-flex align-items-center justify-content-between">
+            {% if is_granted("ROLE_SUPERADMIN") %}
+                <a href="{{ path('work_add') }}" class="btn btn-primary">
+                    {{ "work.add"|trans }}
+                </a>
+            {% endif %}
+
+            <div>
+                {% set payed = app.request.get("payed") ? null : 1 %}
+
+                <a href="{{ path('work_list', {payed: payed}) }}" class="d-inline-flex align-items-center text-decoration-none {% if app.request.get("payed") %}text-success{% else %}text-danger{% endif %}">
+                    <i class="bi bi-toggle-{{ app.request.get("payed") ? 'on' : 'off' }} fs-4"></i> <span class="text-dark ms-2">Zaplacené</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-8 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                {% set dir = app.request.get("dir") == "asc" ? "desc" : "asc" %}
+
+                                <th>
+                                    {% if app.request.query.get("order") != "client.name" %}
+                                        {% set client_name_dir = "asc" %}
+                                    {% else %}
+                                        {% set client_name_dir = dir %}
+                                    {% endif %}
+
+                                    <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'order': 'client.name', 'dir': client_name_dir})|merge(app.request.query.all)) }}" class="link-dark">
+                                        Klient
+
+                                        {% if app.request.query.get("dir") and app.request.query.get("order") == "client.name" %}
+                                            <i class="bi {% if app.request.query.get("dir") == "asc" %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                                        {% endif %}
+                                    </a>
+                                </th>
+
+                                <th>
+                                    Předmět
+                                </th>
+
+                                <th style="width: 125px;">
+                                    {% if app.request.query.get("order") != "work.price" %}
+                                        {% set work_price_dir = "asc" %}
+                                    {% else %}
+                                        {% set work_price_dir = dir %}
+                                    {% endif %}
+
+                                    <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'order': 'work.price', 'dir': work_price_dir})|merge(app.request.query.all)) }}" class="link-dark">
+                                        Cena bez DPH
+
+                                        {% if app.request.query.get("dir") and app.request.query.get("order") == "work.price" %}
+                                            <i class="bi {% if app.request.query.get("dir") == "asc" %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                                        {% endif %}
+                                    </a>
+                                </th>
+
+                                <th style="width: 140px;">
+                                    {% if app.request.query.get("order") != "state.id" %}
+                                        {% set state_id_dir = "asc" %}
+                                    {% else %}
+                                        {% set state_id_dir = dir %}
+                                    {% endif %}
+
+                                    <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'order': 'state.id', 'dir': state_id_dir})|merge(app.request.query.all)) }}" class="link-dark">
+                                        Stav
+
+                                        {% if app.request.query.get("dir") and app.request.query.get("order") == "state.id" %}
+                                            <i class="bi {% if app.request.query.get("dir") == "asc" %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                                        {% endif %}
+                                    </a>
+                                </th>
+
+                                <th style="width: 70px;">
+
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% set total = 0 %}
+
+                            {% for work in works %}
+                                <tr>
+                                    <td id="client-name">
+                                        <a role="button" tabindex="0" class="link-dark" data-bs-content="IČ: {{ work.client.businessId }}" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-trigger="focus">
+                                            {{ work.client.name }}
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        {{ work.subject }}
+                                    </td>
+
+                                    <td>
+                                        {% set total = total + work.price %}
+
+                                        {{ work.price|format_currency("CZK", {fraction_digit: 0}) }}
+                                    </td>
+
+                                    <td>
+                                        <span class="badge {% if work.state.id < 4 %}bg-dark{% else %}{{ work.state.id == 4 ? 'bg-danger' : (work.state.id == 5 ? 'bg-warning' : (work.state.id == 6 ? 'bg-success' : 'bg-info')) }}{% endif %}">
+                                            {{ ["state.", work.state.name]|join|lower|trans }}
+                                        </span>
+
+                                        {% if work.logs.count %}
+                                            {% if (date(work.logs.last.createdAt) <= date("-2 weeks") and work.state.id < 5) or (date(work.logs.last.createdAt) <= date("-1 month") and work.state.id >= 5) %}
+                                                <i class="bi bi-exclamation-circle text-danger ms-1"></i>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+
+                                    <td class="text-end">
+                                        <a href="{{ path('work_edit', {id: work.id}) }}" class="d-inline-flex">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <a href="{{ path('log_list', app.request.query.all|merge({id: work.id})) }}" class="d-inline-flex ms-2">
+                                            <i class="bi bi-clipboard"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                        <tfoot>
+                            <tr>
+                                <th class="border-0" colspan="2">
+                                    Celkem
+                                </th>
+
+                                <th class="border-0">
+                                    {{ total|format_currency("CZK", {fraction_digit: 0}) }}
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 mb-3">
+            <div class="sticky-top" style="top: 1rem;">
+                {% block sidebar %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

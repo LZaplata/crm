@@ -1,0 +1,3 @@
+client:
+    email:
+        unique: Tento e-mail již v databázi existuje.

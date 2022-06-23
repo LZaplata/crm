@@ -1,0 +1,93 @@
+{% extends "tariff/layout.html.twig" %}
+
+{% block heading %}
+    {{ "tariff.list"|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-8 d-flex align-items-center justify-content-between">
+            {% if is_granted("ROLE_SUPERADMIN") %}
+                <a href="{{ path('tariff_add') }}" class="btn btn-primary">
+                    {{ "tariff.add"|trans }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-8">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Klient
+                                </th>
+
+                                <th>
+                                    Název
+                                </th>
+
+                                <th>
+                                    Množství
+                                </th>
+
+                                <th style="width: 140px;">
+                                    Stav
+                                </th>
+
+                                <th style="width: 70px;">
+
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for tariff in tariffs %}
+                                {% set state = tariff.amount - (tariffs_units[tariff.id] is defined ? tariffs_units[tariff.id].amount : 0) %}
+
+                                <tr>
+                                    <td>
+                                        {{ tariff.client.name }}
+                                    </td>
+
+                                    <td>
+                                        {{ tariff.name }}
+                                    </td>
+
+                                    <td>
+                                        {{ tariff.amount }} minut
+                                    </td>
+
+                                    <td>
+                                        <span class="badge {% if state <= tariff.amount / 2 %}{% if state <= tariff.amount / 2 / 2 %}bg-danger{% else %}bg-warning{% endif %}{% else %}bg-dark{% endif %}">
+                                            {{ state }} minut
+                                        </span>
+                                    </td>
+
+                                    <td class="text-end">
+                                        <a href="{{ path('tariff_edit', {id: tariff.id}) }}" class="d-inline-flex">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <a href="{{ path('unit_list', {id: tariff.id}) }}" class="d-inline-flex ms-2">
+                                            <i class="bi bi-clipboard"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="sticky-top" style="top: 1rem;">
+                {% block sidebar %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

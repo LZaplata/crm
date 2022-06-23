@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ "work.add"|trans }}
+{% endblock %}
+
+{% block body %}
+    {% include "_header.html.twig" %}
+
+    <div class="container-fluid g-3" id="works">
+        <h1 class="h3 mb-3">
+            {{ "work.edit"|trans }}
+        </h1>
+
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body pb-0">
+                        {{ form(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
